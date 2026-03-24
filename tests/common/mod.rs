@@ -86,7 +86,7 @@ pub fn make_quic_configs(
     Ok((server_config, client_config))
 }
 
-/// Start a quicssh-like QUIC server that relays to a TCP target.
+/// Start a qssh-like QUIC server that relays to a TCP target.
 /// Returns the QUIC listen address.
 pub async fn start_quic_relay_server(
     server_config: quinn::ServerConfig,

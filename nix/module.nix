@@ -3,22 +3,28 @@ flake:
 { config, lib, pkgs, ... }:
 
 let
-  cfg = config.services.quicssh;
+  cfg = config.services.qssh;
   settingsFormat = pkgs.formats.toml { };
-  configFile = settingsFormat.generate "quicssh.toml" cfg.settings;
+  configFile = settingsFormat.generate "qssh.toml" cfg.settings;
 in
 {
-  options.services.quicssh = {
-    enable = lib.mkEnableOption "quicssh QUIC SSH proxy server";
+  options.services.qssh = {
+    enable = lib.mkEnableOption "qssh QUIC SSH proxy server";
 
-    package = lib.mkPackageOption pkgs "quicssh" {
-      default = flake.packages.${pkgs.system}.quicssh;
+    package = lib.mkPackageOption pkgs "qssh" {
+      default = flake.packages.${pkgs.system}.qssh;
     };
 
     logLevel = lib.mkOption {
       type = lib.types.enum [ "trace" "debug" "info" "warn" "error" ];
       default = "info";
-      description = "Log level for the quicssh server.";
+      description = "Log level for the qssh server.";
+    };
+
+    port = lib.mkOption {
+      type = lib.types.port;
+      default = 4433;
+      description = "UDP port for the firewall rule. Should match the port in `settings.server.listen`.";
     };
 
     settings = lib.mkOption {
@@ -29,7 +35,7 @@ in
           listen = lib.mkOption {
             type = lib.types.str;
             default = "0.0.0.0:4433";
-            description = "Address to listen on.";
+            description = "Address to listen on (host:port).";
           };
 
           proxy_to = lib.mkOption {
@@ -40,13 +46,13 @@ in
 
           cert_dir = lib.mkOption {
             type = lib.types.str;
-            default = "/var/lib/quicssh";
+            default = "/var/lib/qssh";
             description = "Directory for auto-generated TLS certificates.";
           };
         };
       };
       default = { };
-      description = "quicssh server configuration (TOML).";
+      description = "qssh server configuration (TOML).";
     };
 
     openFirewall = lib.mkOption {
@@ -57,8 +63,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    systemd.services.quicssh = {
-      description = "quicssh QUIC SSH proxy";
+    systemd.services.qssh = {
+      description = "qssh QUIC SSH proxy";
       wantedBy = [ "multi-user.target" ];
       after = [ "network.target" "sshd.service" ];
 
@@ -69,19 +75,16 @@ in
 
         # Hardening
         DynamicUser = true;
-        StateDirectory = "quicssh";
+        StateDirectory = "qssh";
         NoNewPrivileges = true;
         ProtectSystem = "strict";
         ProtectHome = true;
         PrivateTmp = true;
-        ReadWritePaths = [ "/var/lib/quicssh" ];
+        ReadWritePaths = [ "/var/lib/qssh" ];
       };
     };
 
     networking.firewall.allowedUDPPorts =
-      let
-        port = lib.toInt (lib.last (lib.splitString ":" cfg.settings.server.listen));
-      in
-      lib.mkIf cfg.openFirewall [ port ];
+      lib.mkIf cfg.openFirewall [ cfg.port ];
   };
 }

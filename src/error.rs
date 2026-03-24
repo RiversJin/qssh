@@ -1,7 +1,7 @@
 use thiserror::Error;
 
 #[derive(Error, Debug)]
-pub enum QuicsshError {
+pub enum QsshError {
     #[error("invalid URL scheme: expected 'quic', got '{0}'")]
     InvalidScheme(String),
 

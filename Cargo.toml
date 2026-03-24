@@ -1,12 +1,12 @@
 [package]
-name = "quicssh"
+name = "qssh"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
 description = "QUIC-based SSH proxy with connection migration support"
 
 [[bin]]
-name = "quicssh"
+name = "qssh"
 path = "src/main.rs"
 
 [dependencies]
@@ -38,6 +38,9 @@ url = "2"
 base64 = "0.22"
 sha2 = "0.10"
 dirs = "5"
+
+[profile.release]
+lto = true
 
 [dev-dependencies]
 tokio = { version = "1", features = ["full", "test-util"] }

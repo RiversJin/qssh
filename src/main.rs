@@ -9,7 +9,7 @@ use clap::{Parser, Subcommand};
 use std::path::PathBuf;
 
 #[derive(Parser)]
-#[command(name = "quicssh", version, about = "QUIC-based SSH proxy")]
+#[command(name = "qssh", version, about = "QUIC-based SSH proxy")]
 struct Cli {
     #[command(subcommand)]
     command: Command,

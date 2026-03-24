@@ -77,7 +77,7 @@ async fn echo_roundtrip(
 async fn test_basic_relay_no_loss() -> Result<()> {
     let (client_ep, connect_addr, _server_ep, _proxy) = setup_stack(0.0, 0).await?;
 
-    let data = b"hello quicssh";
+    let data = b"hello qssh";
     echo_roundtrip(&client_ep, connect_addr, data, 5).await?;
 
     Ok(())
@@ -141,7 +141,7 @@ async fn test_high_latency_200ms() -> Result<()> {
     let (client_ep, connect_addr, _server_ep, _proxy) = setup_stack(0.0, 100).await?;
 
     // Smaller data due to high latency
-    let data = b"latency test data - quicssh handles delay well";
+    let data = b"latency test data - qssh handles delay well";
     echo_roundtrip(&client_ep, connect_addr, data, 30).await?;
 
     Ok(())

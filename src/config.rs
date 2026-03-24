@@ -141,7 +141,7 @@ pub struct ServerArgs {
 fn default_cert_dir() -> PathBuf {
     dirs::config_dir()
         .unwrap_or_else(|| PathBuf::from("~/.config"))
-        .join("quicssh")
+        .join("qssh")
 }
 
 pub fn resolve_client(

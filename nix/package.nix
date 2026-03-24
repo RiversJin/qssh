@@ -4,7 +4,7 @@
 }:
 
 rustPlatform.buildRustPackage {
-  pname = "quicssh";
+  pname = "qssh";
   version = "0.1.0";
 
   src = lib.cleanSource ./..;
@@ -13,8 +13,8 @@ rustPlatform.buildRustPackage {
 
   meta = with lib; {
     description = "QUIC-based SSH proxy with connection migration support";
-    homepage = "https://github.com/rivers/quicssh";
+    homepage = "https://github.com/rivers/qssh";
     license = licenses.mit;
-    mainProgram = "quicssh";
+    mainProgram = "qssh";
   };
 }

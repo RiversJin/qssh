@@ -1,4 +1,4 @@
-# quicssh configuration file
+# qssh configuration file
 
 [client]
 buffer_size = 16384
@@ -6,7 +6,7 @@ max_idle_timeout_ms = 60000
 keepalive_interval_secs = 5
 # Certificate verification: "none", "tofu", or path to CA cert
 cert_verify = "tofu"
-known_hosts = "~/.config/quicssh/known_hosts"
+known_hosts = "~/.config/qssh/known_hosts"
 
 [server]
 listen = "0.0.0.0:4433"
@@ -14,7 +14,7 @@ proxy_to = "127.0.0.1:22"
 buffer_size = 16384
 max_idle_timeout_ms = 60000
 keepalive_interval_secs = 5
-cert_dir = "~/.config/quicssh"
+cert_dir = "~/.config/qssh"
 
 # SNI-based routing to different SSH servers
 [server.routes]
