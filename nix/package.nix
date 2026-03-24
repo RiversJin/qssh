@@ -13,7 +13,7 @@ rustPlatform.buildRustPackage {
 
   meta = with lib; {
     description = "QUIC-based SSH proxy with connection migration support";
-    homepage = "https://github.com/rivers/qssh";
+    homepage = "https://github.com/RiversJin/qssh";
     license = licenses.mit;
     mainProgram = "qssh";
   };
